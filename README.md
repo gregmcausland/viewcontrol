@@ -158,7 +158,7 @@ This example will send the h1 dom object to your MyModule instance, ready to be 
 
 ### .elements
 
-The was we expose bound items to the Module instance is through the elements object. It's simply an object that is autofilled with references to all bindings within your controller module scope.
+The way we expose bound items to the Module instance is through the elements object. It's simply an object that is autofilled with references to all bindings within your controller module scope.
 
 	var viewController = ViewController.getInstance();
 
