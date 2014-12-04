@@ -9,6 +9,10 @@ This is a bit of lightweight javascript framework to provide easy access to a tr
 	- <a href="#overloading-functions">Overloading Functions</a>
 	- <a href="#singletons--getinstance">Singletons / getInstance()</a>
 
+- <a href="#the-view-controller">The View Controller</a>
+	- <a href="#viewcontrollerregister">ViewController.register()</a>
+
+
 ## Setup
 
 For the purposes of getting this working. From terminal run:
@@ -118,3 +122,4 @@ regardless of where you call this from the instance will be shared making it per
 
 # The View Controller
 
+## ViewController.register()
