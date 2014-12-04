@@ -1,0 +1,42 @@
+/**
+ * @file            : global/_helper.scss
+ * @author          : Greg McAusland
+ * @description     : Helper classes
+ */
+
+/* Generic breakpoints */
+
+$wide: 64.0625em;           // 1025+
+$desktop: 48.0625em;        // 769px upwards for desktop
+$tablet-down: 48em;         // 768px downwards for tablet
+$tablet-up: 37.5625em;      // 601px upwards for tablet
+$mobile: 37.5em;            // 600px downwards for mobile and
+
+
+/* Helper classes and placeholders */
+
+%margin-trim {
+    > *:first-child { margin-top: 0 }
+    > *:last-child { margin-bottom: 0 }
+}
+
+.cf {
+    zoom: 1;
+
+    &:before, &:after {
+        content: '';
+        display: table;
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+%cleanlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+

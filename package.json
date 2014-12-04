@@ -1,0 +1,14 @@
+{
+  "name": "gulp",
+  "version": "3.8.6",
+  "description": "Gulp Demo",
+  "devDependencies": {
+    "gulp": "",
+    "gulp-autoprefixer": "",
+    "gulp-browserify": "^0.5.0",
+    "gulp-cssmin": "",
+    "gulp-pixrem": "",
+    "gulp-plumber": "^0.6.6",
+    "gulp-sass": ""
+  }
+}
