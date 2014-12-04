@@ -26,6 +26,8 @@ The design uses 2 basic commands to inherit and instantiate modules.
 
 Module.extend is the startpoint for any module definition. It's also how inherit any module to another. In effect every module you write is a descendant of 'Module'.
 
+	var Module = require('./module');
+
 	var MyModule = Module.extend({
 
 		func1: function() {
@@ -59,6 +61,8 @@ As with classical inheritence you can overload any existing function with a new 
 The Module object has a unique property which gives access to it's parent Module named (aptly) super. This should be called on overloaded functions to execute both the original functionality and the new functionality. This should always be the case on init functions as the base module assigns with options object to your instance.
 
 Ultimately when extending any class your overloaded init function should read as follows:
+
+	var Module = require('./module');
 
 	var MyModule = Module.extend({
 
