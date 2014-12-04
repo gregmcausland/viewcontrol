@@ -1,5 +1,3 @@
-# View Controller
-
 This is a bit of lightweight javascript framework to provide easy access to a traditional style class / inheritance structure combined with a global view controller which acts to automate instancing of scripts to dom and to provide some sugary helpers to make the writing of dom centric javascript a bit more elegant.
 
 ## Setup
@@ -18,7 +16,7 @@ to run the watch script.
 
 The system will work with anything if pulled in but is currently constructed with browserify in mind. 
 
-## The Module
+# The Module
 
 The module is a very simple class-style object wrapper. It's designed to make inheritance very accessible as well as obfuscating some of the uglier parts of instantiation and object cloning. 
 
@@ -108,3 +106,5 @@ To this end we have a helper function available on all Module objects named getI
 	var instance = SingletonModule.getInstance();
 
 regardless of where you call this from the instance will be shared making it perfect for 'globally' available objects while sticking to the require / module style of code organisation.
+
+# The View Controller
