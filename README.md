@@ -173,3 +173,17 @@ The way we expose bound items to the Module instance is through the elements obj
 #### Result: 
 
 	> Hello World!
+
+### Currently Supported binding tags:
+
+##### data-bind="{{id}}"
+
+bind a single element.
+
+##### data-collection="{{id}}"
+
+bind multiple elements, adding an array to the elements object in sequential order. 
+
+##### data-click="{{function}}"
+
+bind a click event directly to a member function of the module controller. (this scope is always that of the controller, use e.currentTarget to get the clicked object. )
