@@ -50,11 +50,11 @@ As each module is intended to act as a Class, you will never manipulate or call 
 	myInstance.func1();
 	myInstance.var = 10;
 
-### Constructor / init()
+## Constructor / init()
 
 As covered briefly in the last section, init is the default constructor function of any module. By adding init to any Module it will be involked automatically when instancing that Module with Module.create()
 
-### Overloading functions
+## Overloading functions
 
 As with classical inheritence you can overload any existing function with a new one. The one which will almost always be overloaded is the init function, as it exists in the baseline module as your constructor.
 
@@ -97,7 +97,7 @@ This inheritence can be applied from any module that extends the base Module. In
 	> Function!
 	> Overload!
 
-### Singletons / getInstance()
+## Singletons / getInstance()
 
 A lot of the time the thing we require will be a shared singleton object. Something that should be persistant and required by multiple modules. For example, a global events object that everything listens to.
 
