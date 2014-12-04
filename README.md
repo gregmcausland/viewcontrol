@@ -188,7 +188,11 @@ bind multiple elements, adding an array to the elements object in sequential ord
 
 bind a click event directly to a member function of the module controller. (this scope is always that of the controller, use e.currentTarget to get the clicked object. )
 
-## Example
+## Full Example
+
+The full example, provided in the repo is for an uber basic slider, but shows how be registering the module controller we can simply declare that a piece of html is a slider, and it will automatically be executed upon.
+
+Given that scope is controlled, we could run 50 sliders on a page by simply declaring them with the data- binds.
 
 html:
 
