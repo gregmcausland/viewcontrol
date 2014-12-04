@@ -122,4 +122,54 @@ regardless of where you call this from the instance will be shared making it per
 
 # The View Controller
 
+The view controller is a singleton module that introduces the ability to integrate modules more seamlessly with the dom using a declarative format to instance and bind modules. 
+
 ## ViewController.register()
+
+The register function binds a module to a specified id, turning it into an instancable view controller. 
+
+	var viewController = ViewController.getInstance();
+
+	var MyModule = Module.extend({ ... });
+
+	viewController.register( 'MyModule', MyModule );
+
+The id string is what we will use later in our HTML to declare an object as bound to the controller.
+
+## Connecting to a controller
+
+With the controller now registered, we're able to instance it by declaring a scope in the DOM using the data-controller attribute.
+
+	<div data-controller="MyModule">
+	...
+	</div>
+
+This will create an instance of MyModule, passing this div as the scope. This means that any declared bindings made within this div will automatically be made available to the Module instance.
+
+## Bindings and the elements object.
+
+Within the scope of any controller module you may declare dom elements to be automatically passed to your instance. We do this by means of several directives, the most basic being data-bind.
+
+	<div data-controller="MyModule">
+		<h1 data-bind="helloWorld">Hello World</h1>
+	</div>
+
+This example will send the h1 dom object to your MyModule instance, ready to be manipulated. 
+
+### .elements
+
+The was we expose bound items to the Module instance is through the elements object. It's simply an object that is autofilled with references to all bindings within your controller module scope.
+
+	var viewController = ViewController.getInstance();
+
+	var MyModule = Module.extend({
+		init: function() {
+			console.log( this.elements.helloWorld );
+		}
+	});
+
+	viewController.register( 'MyModule', MyModule );
+
+#### Result: 
+
+	> Hello World!
