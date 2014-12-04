@@ -26,7 +26,7 @@ The design uses 2 basic commands to inherit and instantiate modules.
 
 ### Module.extend()
 
-Module.extend is the startpoint for any module definition. It's also how inherit any module to another. In effect every module you write is a desendant of 'Module'.
+Module.extend is the startpoint for any module definition. It's also how inherit any module to another. In effect every module you write is a descendant of 'Module'.
 
 	var MyModule = Module.extend({
 
@@ -71,7 +71,7 @@ Ultimately when extending any class your overloaded init function should read as
 		},
 
 		func1: function() {
-
+			console.log('Function!');
 		}
 	
 	});
@@ -83,10 +83,19 @@ This inheritence can be applied from any module that extends the base Module. In
 
 		func1: function() {
 			this.super.func1.call( this );
-			alert("Overload!");
+			console.log("Overload!");
 		}
 
 	});
+
+	var yeAnotherModuleInstance = YetAnotherModule.create();
+
+	yetAnotherModuleInstance.func1();
+
+#### Result:
+
+	> Function!
+	> Overload!
 
 ### Singletons
 
