@@ -1,5 +1,11 @@
 This is a bit of lightweight javascript framework to provide easy access to a traditional style class / inheritance structure combined with a global view controller which acts to automate instancing of scripts to dom and to provide some sugary helpers to make the writing of dom centric javascript a bit more elegant.
 
+# Contents
+
+- <a href="#the-module">The Module</a>
+	- <a href="#module-extend">Module.extend()</a>
+	- <a href="#module-create">Module.create()</a>
+
 ## Setup
 
 For the purposes of getting this working. From terminal run:
@@ -108,3 +114,4 @@ To this end we have a helper function available on all Module objects named getI
 regardless of where you call this from the instance will be shared making it perfect for 'globally' available objects while sticking to the require / module style of code organisation.
 
 # The View Controller
+
