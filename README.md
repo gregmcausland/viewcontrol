@@ -24,7 +24,7 @@ The module is a very simple class-style object wrapper. It's designed to make in
 
 The design uses 2 basic commands to inherit and instantiate modules.
 
-### Module.extend
+### Module.extend()
 
 Module.extend is the startpoint for any module definition. It's also how inherit any module to another. In effect every module you write is a desendant of 'Module'.
 
@@ -40,7 +40,7 @@ Module.extend is the startpoint for any module definition. It's also how inherit
 
 	});
 
-### Module.create
+### Module.create()
 
 As each module is intended to act as a Class, you will never manipulate or call them directly. Instead the idea is to create an instance of the module and manipulate that instead. Module.create also accepts an options object which is in turn passed to the constructor function 'init' when create is called. More on init below.
 
@@ -50,7 +50,7 @@ As each module is intended to act as a Class, you will never manipulate or call 
 	myInstance.func1();
 	myInstance.var = 10;
 
-### Constructor / init
+### Constructor / init()
 
 As covered briefly in the last section, init is the default constructor function of any module. By adding init to any Module it will be involked automatically when instancing that Module with Module.create()
 
