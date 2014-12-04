@@ -187,3 +187,73 @@ bind multiple elements, adding an array to the elements object in sequential ord
 ##### data-click="{{function}}"
 
 bind a click event directly to a member function of the module controller. (this scope is always that of the controller, use e.currentTarget to get the clicked object. )
+
+## Example
+
+html:
+
+	<div data-controller="SliderController">
+		
+		<div class="slider">
+			<div class="slider__slide" data-collection="slides">
+				<img src="http://www.placecage.com/320/200" alt="">
+			</div>
+			<div class="slider__slide" data-collection="slides">
+				<img src="http://www.placecage.com/320/205" alt="">
+			</div>
+			<div class="slider__slide" data-collection="slides">
+				<img src="http://www.placecage.com/320/210" alt="">
+			</div>
+			<div class="slider__slide" data-collection="slides">
+				<img src="http://www.placecage.com/320/215" alt="">
+			</div>
+		</div>
+
+		<button data-click="nextSlide">Next</button>
+		<button data-click="prevSlide">Previous</button>
+
+	</div>
+
+
+slider javascript:
+
+	/* Dependancies */
+	var Module          = require('./module');
+	var ViewController  = require('./viewcontroller');
+
+	/* Our Module */
+	var SliderController = Module.extend({
+
+	    ACTIVE: 'is-active',
+
+	    init: function( options ) {
+	        this.super.init.call( this, options );
+	        if ( this.elements.slides.length ) {
+	            this.nSlides = this.elements.slides.length;
+	            this.currentSlide = 0;
+	            this.setSlide( 0 );
+	        }
+	    },
+
+	    nextSlide: function() {
+	        this.setSlide( this.currentSlide+1 );
+	    },
+
+	    prevSlide: function() {
+	        this.setSlide( this.currentSlide-1 );
+	    },
+
+	    setSlide: function( targetSlide ) {
+	        if ( targetSlide < 0 ) targetSlide = (this.nSlides-1);
+	        if ( targetSlide > (this.nSlides-1) ) targetSlide = 0;
+
+	        this.elements.slides[ this.currentSlide ].classList.remove( this.ACTIVE );
+	        this.elements.slides[ targetSlide ].classList.add( this.ACTIVE );
+	        this.currentSlide = targetSlide;
+	    }
+
+	});
+
+	/* Exports */
+	ViewController.register( 'SliderController', SliderController );
+	module.exports = SliderController;
