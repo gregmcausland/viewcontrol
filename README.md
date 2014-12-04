@@ -261,3 +261,20 @@ slider javascript:
 	/* Exports */
 	ViewController.register( 'SliderController', SliderController );
 	module.exports = SliderController;
+
+
+## Testing
+
+Each instance on page is automatically assigned a unique sequential ID. To further facilitate unit testing the instance id can be overriden using an html declaration.
+
+	<div data-controller="MyModule" data-instance="uniqueId">
+	...
+	</div>
+
+This can then be pulled after dom ready by accessing the ViewController.
+
+	var viewController = ViewController.getInstance();
+
+	myTestingInstance = viewController.instances.uniqueId;
+
+	
