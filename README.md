@@ -97,5 +97,14 @@ This inheritence can be applied from any module that extends the base Module. In
 	> Function!
 	> Overload!
 
-### Singletons
+### Singletons / getInstance()
 
+A lot of the time the thing we require will be a shared singleton object. Something that should be persistant and required by multiple modules. For example, a global events object that everything listens to.
+
+Given the nature of javascript objects we could directly manipulate our module definition and use it in such a way. For the sake of consistency however we want to instance the module and use this persistent instance so that the module can still be used with inheritence.
+
+To this end we have a helper function available on all Module objects named getInstance(). This does exactly what it says on the tin, it returns a constant instance of the module in question, or the first time called will create that single instance.
+
+	var instance = SingletonModule.getInstance();
+
+regardless of where you call this from the instance will be shared making it perfect for 'globally' available objects while sticking to the require / module style of code organisation.
