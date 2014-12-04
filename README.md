@@ -2,9 +2,9 @@ This is a bit of lightweight javascript framework to provide easy access to a tr
 
 # Contents
 
-- <a href="#-the-module">The Module</a>
-	- <a href="#-moduleextend">Module.extend()</a>
-	- <a href="#-modulecreate">Module.create()</a>
+- <a href="#the-module">The Module</a>
+	- <a href="#moduleextend">Module.extend()</a>
+	- <a href="#modulecreate">Module.create()</a>
 	- <a href="#constructor--init">Constructor / init()</a>
 	- <a href="#overloading-functions">Overloading Functions</a>
 	- <a href="#singletons--getinstance">Singletons / getInstance()</a>
