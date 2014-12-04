@@ -2,9 +2,12 @@ This is a bit of lightweight javascript framework to provide easy access to a tr
 
 # Contents
 
-- <a href="#the-module">The Module</a>
-	- <a href="#module-extend">Module.extend()</a>
-	- <a href="#module-create">Module.create()</a>
+- <a href="#-the-module">The Module</a>
+	- <a href="#-moduleextend">Module.extend()</a>
+	- <a href="#-modulecreate">Module.create()</a>
+	- <a href="#constructor--init">Constructor / init()</a>
+	- <a href="#overloading-functions">Overloading Functions</a>
+	- <a href="#singletons--getinstance">Singletons / getInstance()</a>
 
 ## Setup
 
@@ -22,13 +25,13 @@ to run the watch script.
 
 The system will work with anything if pulled in but is currently constructed with browserify in mind. 
 
-# <span name="the-module"></span> The Module
+# The Module
 
 The module is a very simple class-style object wrapper. It's designed to make inheritance very accessible as well as obfuscating some of the uglier parts of instantiation and object cloning. 
 
 The design uses 2 basic commands to inherit and instantiate modules.
 
-### <span name="module-extend"></span> Module.extend()
+## Module.extend()
 
 Module.extend is the startpoint for any module definition. It's also how inherit any module to another. In effect every module you write is a descendant of 'Module'.
 
@@ -44,7 +47,7 @@ Module.extend is the startpoint for any module definition. It's also how inherit
 
 	});
 
-### <span name="module-create"></span> Module.create()
+## Module.create()
 
 As each module is intended to act as a Class, you will never manipulate or call them directly. Instead the idea is to create an instance of the module and manipulate that instead. Module.create also accepts an options object which is in turn passed to the constructor function 'init' when create is called. More on init below.
 
