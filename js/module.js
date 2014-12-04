@@ -58,8 +58,8 @@ var Module = {
         this[method.name] = method;
     },
 
-     /** 
-          * Create an internal singleton instance of the class.
+    /** 
+     * Create an internal singleton instance of the class.
      *
      * return instance        a persistant instance of this class.
      */

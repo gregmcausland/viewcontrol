@@ -17,6 +17,12 @@ var ViewController = Module.extend({
         $( this.assignControllers.bind(this) );
     },
 
+    /**
+     * Register a module with an associated id. 
+     *
+     * @param  id           the id associated with this controller module.
+     * @param  module       the module object.
+     */
     register: function( id, module ) {
         /* Ensure the passed module is a proper module object */
         if ( typeof module === 'object' && typeof module.init === 'function' ) {
