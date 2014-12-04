@@ -164,7 +164,7 @@ The was we expose bound items to the Module instance is through the elements obj
 
 	var MyModule = Module.extend({
 		init: function() {
-			console.log( this.elements.helloWorld );
+			console.log( this.elements.helloWorld.innerHTML );
 		}
 	});
 
