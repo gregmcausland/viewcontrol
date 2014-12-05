@@ -29,8 +29,10 @@ var ViewController = Module.extend({
             /* Left as a straight assignment, if you override 
              * an ID I'm assuming it's intended */
             this.controllers[id] = module;
-            if ( this.DEBUG ) console.log('Registered: ' + id);
-            if ( this.DEBUG ) console.log( '-------' );
+            if ( this.DEBUG ) {
+                console.log('Registered: ' + id);
+                console.log( '-------' );
+            }
         }
     },
 
@@ -44,12 +46,25 @@ var ViewController = Module.extend({
         if ( controller ) {
             var instance = Object.create( controller );
             var id = this.defineScope( item, instance );
-            this.instances[ id ] = instance;
-            instance.init();
+            var options = {};
 
-            if ( this.DEBUG ) console.log( 'Instance of ' + item.dataset[ this.CONTROLLER ] + ' created. id: ' + id );
-            if ( this.DEBUG ) console.log( instance );
-            if ( this.DEBUG ) console.log( '-------' );
+            this.instances[ id ] = instance;
+
+            if ( item.dataset.options ) {
+                try {
+                    options = JSON.parse( item.dataset.options )
+                } catch(e) {
+                    options = {};
+                }
+            }
+
+            instance.init( options );
+
+            if ( this.DEBUG ) {
+                console.log( 'Instance of ' + item.dataset[ this.CONTROLLER ] + ' created. id: ' + id );
+                console.log( instance );
+                console.log( '-------' );
+            }
         } else {
             if ( this.DEBUG ) console.log('Controller not defined.');
         }
