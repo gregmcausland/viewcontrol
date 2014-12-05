@@ -1,2 +1,2 @@
-
+require('./polyfills');
 require('./slidercontroller');

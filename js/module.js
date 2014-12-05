@@ -15,7 +15,7 @@ var Module = {
      */
     extend: function( obj ) {
         var instance = Object.create( this );
-        instance.super = this;
+        instance.$super = this;
         for ( var method in obj ) {
             instance[method] = obj[method];
         };
@@ -36,10 +36,10 @@ var Module = {
 
     /**
      * Baseline init function, automatically involked when create is called. 
-     * assigns options to this.options, should always be called from the super object
+     * assigns options to this.options, should always be called from the $super object
      * if overloaded:
      *
-     * this.super.init.call( this, options ); 
+     * this.$super.init.call( this, options ); 
      *
      * @param  obj          init options object.
      */

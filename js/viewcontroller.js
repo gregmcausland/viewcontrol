@@ -10,7 +10,7 @@ var ViewController = Module.extend({
     DEBUG:      true,
 
     init: function( options ) {
-        this.super.init.call( this, options );
+        this.$super.init.call( this, options );
         this.controllers = {};
         this.instances = {};
         this.idIterator = 1;

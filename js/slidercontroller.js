@@ -9,7 +9,7 @@ var SliderController = Module.extend({
     ACTIVE: 'is-active',
 
     init: function( options ) {
-        this.super.init.call( this, options );
+        this.$super.init.call( this, options );
         if ( this.elements.slides.length ) {
             this.nSlides = this.elements.slides.length;
             this.currentSlide = 0;

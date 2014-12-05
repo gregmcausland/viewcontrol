@@ -5,6 +5,7 @@ var autoprefixer    = require('gulp-autoprefixer');
 var pixrem          = require('gulp-pixrem');
 var cssmin          = require('gulp-cssmin');
 var browserify      = require('gulp-browserify');
+var uglify          = require('gulp-uglify');
 
 gulp.task('css', function() {
 
@@ -26,9 +27,10 @@ gulp.task('js', function() {
     gulp.src('./js/app.js')
         .pipe(plumber())
         .pipe(browserify({
-            insertGlobals: true,
+            insertGlobals: false,
             debug: false
         }))
+        .pipe(uglify())
         .pipe(gulp.dest('./build'));
 
     gulp.src('./jasmine/spec/spec.js')
