@@ -7,27 +7,7 @@
 	</head>
 
 
-	<div data-controller="SliderController">
-		
-		<div class="slider">
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/200" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/205" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/210" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/215" alt="">
-			</div>
-		</div>
-
-		<button data-click="nextSlide">Next</button>
-		<button data-click="prevSlide">Previous</button>
-
-	</div>
+	<div data-controller="moo"></div>
 
 	<div data-controller="SliderController">
 		
@@ -42,58 +22,71 @@
 				<img src="http://www.placecage.com/320/210" alt="">
 			</div>
 			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/215" alt="">
+
+
+				<div data-controller="SliderController">
+					
+					<div class="slider">
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/200" alt="">
+						</div>
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/205" alt="">
+						</div>
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/210" alt="">
+						</div>
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/215" alt="">
+						</div>
+					</div>
+
+					<div class="controls">
+						<button data-click="nextSlide">Next</button>
+						<button data-click="prevSlide">Previous</button>
+					</div>
+
+				</div>
+
+
 			</div>
 		</div>
 
-		<button data-click="nextSlide">Next</button>
-		<button data-click="prevSlide">Previous</button>
-
-	</div>
-
-	<div data-controller="SliderController" data-options='{"images":[1,2,3]}'>
-		
-		<div class="slider">
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/200" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/205" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/210" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/215" alt="">
-			</div>
+		<div class="controls">
+			<button data-click="nextSlide">Next</button>
+			<button data-click="prevSlide">Previous</button>
 		</div>
 
-		<button data-click="nextSlide">Next</button>
-		<button data-click="prevSlide">Previous</button>
-
 	</div>
 
-	<div data-controller="SliderController">
-		
-		<div class="slider">
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/200" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/205" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/210" alt="">
-			</div>
-			<div class="slider__slide" data-collection="slides">
-				<img src="http://www.placecage.com/320/215" alt="">
-			</div>
-		</div>
 
-		<button data-click="nextSlide">Next</button>
-		<button data-click="prevSlide">Previous</button>
 
-	</div>
+
+
+
+				<div data-controller="moo">
+					
+					<div class="slider">
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/200" alt="">
+						</div>
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/205" alt="">
+						</div>
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/210" alt="">
+						</div>
+						<div class="slider__slide" data-collection="slides">
+							<img src="http://www.placecage.com/320/215" alt="">
+						</div>
+					</div>
+
+					<div class="controls">
+						<button data-click="nextSlide">Next</button>
+						<button data-click="prevSlide">Previous</button>
+					</div>
+
+				</div>
 
 	<body>
 		<script src="js/jquery.js"></script>

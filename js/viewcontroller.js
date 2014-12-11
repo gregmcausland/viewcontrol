@@ -7,7 +7,7 @@ var ViewController = Module.extend({
     COLLECTION: 'collection',
     CLICK:      'click',
 
-    DEBUG:      true,
+    DEBUG:      false,
 
     init: function( options ) {
         this.$super.init.call( this, options );
@@ -39,6 +39,7 @@ var ViewController = Module.extend({
     assignControllers: function() {
         var searchTerm = '[data-' + this.CONTROLLER + ']';
         $( searchTerm ).each( this.instanceController.bind(this) );
+        this.initControllers();
     },
 
     instanceController: function( index, item ) {
@@ -48,7 +49,7 @@ var ViewController = Module.extend({
             var id = this.defineScope( item, instance );
             var options = {};
 
-            this.instances[ id ] = instance;
+            this.instances[ id ] = { instance: instance, options: options };
 
             if ( item.dataset.options ) {
                 try {
@@ -58,8 +59,6 @@ var ViewController = Module.extend({
                 }
             }
 
-            instance.init( options );
-
             if ( this.DEBUG ) {
                 console.log( 'Instance of ' + item.dataset[ this.CONTROLLER ] + ' created. id: ' + id );
                 console.log( instance );
@@ -67,6 +66,20 @@ var ViewController = Module.extend({
             }
         } else {
             if ( this.DEBUG ) console.log('Controller not defined.');
+        }
+    },
+
+    initControllers: function() {
+        /* In order to cater to certain parent child relationships
+         * with nested controllers, we instance everything and then do a batch
+         * init after the fact */
+         
+        var item;
+
+        for ( var controllerInstance in this.instances ) {
+            console.log(item)
+            item = this.instances[ controllerInstance ];
+            item.instance.init( item.options );
         }
     },
 
@@ -91,8 +104,11 @@ var ViewController = Module.extend({
     },
 
     assignBinds: function( item, controllerInstance ) {
+        var $el = $( item );
         var searchTerm = '[data-' + this.BINDING +']';
-        $(item).find( searchTerm ).each(function( index, item ) {
+        var exclude = $el.find('[data-' + this.CONTROLLER + '] [data-' + this.BINDING +']');
+
+        $el.find( searchTerm ).not(exclude).each(function( index, item ) {
             controllerInstance.elements[ item.dataset[this.BINDING] ] = item;
         }.bind(this));
     },
@@ -100,9 +116,10 @@ var ViewController = Module.extend({
     assignCollections: function( item, controllerInstance ) {
         var $el = $( item );
         var collections = [];
+        var exclude = $el.find('[data-' + this.CONTROLLER + '] [data-' + this.COLLECTION +']');
 
         /* Construct an array of all the collection id's found */
-        $el.find('[data-' + this.COLLECTION + ']').each(function() {
+        $el.find('[data-' + this.COLLECTION + ']').not(exclude).each(function() {
             if ( collections.indexOf( this.dataset.collection ) ) {
                 collections.push( this.dataset.collection );
             }
@@ -111,7 +128,7 @@ var ViewController = Module.extend({
         /* Populate each collection type on the instance */
         for ( var i=0, len=collections.length; i<len; i++ ) {
             controllerInstance.elements[ collections[i] ] = [];
-            $el.find('[data-' + this.COLLECTION + '=' + collections[i] + ']').each(function() {
+            $el.find('[data-' + this.COLLECTION + '=' + collections[i] + ']').not(exclude).each(function() {
                 controllerInstance.elements[ collections[i] ].push(this);
             });
         }
@@ -119,7 +136,8 @@ var ViewController = Module.extend({
 
     assignClicks: function( item, controllerInstance ) {
         var $el = $( item );
-        $el.find('[data-' + this.CLICK +']').each(function() {
+        var exclude = $el.find('[data-' + this.CONTROLLER + '] [data-' + this.CLICK +']');
+        $el.find('[data-' + this.CLICK +']').not(exclude).each(function() {
             $(this).on('click', controllerInstance[this.dataset.click].bind(controllerInstance));
         });
     }

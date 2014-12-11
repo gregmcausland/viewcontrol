@@ -1,7 +1,6 @@
-
 /* Dependancies */
-var Module          = require('./module');
-var ViewController  = require('./viewcontroller');
+var Module = require('./module');
+var ViewController = require('./viewcontroller');
 
 /* Our Module */
 var SliderController = Module.extend({
@@ -37,5 +36,5 @@ var SliderController = Module.extend({
 });
 
 /* Exports */
-ViewController.register( 'SliderController', SliderController );
+ViewController.register('SliderController', SliderController);
 module.exports = SliderController;
