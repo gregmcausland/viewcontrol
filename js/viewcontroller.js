@@ -96,7 +96,7 @@ var ViewController = Module.extend({
          * collections and clicks (expandable) */
         this.assignBinds( item, controllerInstance );
         this.assignCollections( item, controllerInstance );
-        this.assignClicks( item, controllerInstance );
+        this.assignEvents( item, controllerInstance );
 
         item.dataset.instance = instanceId;
         return instanceId;
@@ -133,11 +133,23 @@ var ViewController = Module.extend({
         }
     },
 
-    assignClicks: function( item, controllerInstance ) {
+    assignEvents: function ( item, controllerInstance ) {
         var $el = $( item );
-        var exclude = $el.find('[data-' + this.CONTROLLER + '] [data-' + this.CLICK +']');
-        $el.find('[data-' + this.CLICK +']').not(exclude).each(function() {
-            $(this).on('click', controllerInstance[this.dataset.click].bind(controllerInstance));
+        var exclude = $el.find('[data-' + this.CONTROLLER + '] *');
+ 
+        /* Iterate over all children in scope */
+        $el.children().not(exclude).each(function () {
+            var $elem = $(this);
+ 
+            /* Iterate over the element's attributes */
+            $.each(this.attributes, function(index, attribute) {
+                var matches = attribute.name.match(/data-event-(.+)/i);
+ 
+                /* If the current attribute matches data-event-*, attach the specified handler to the event */
+                if (matches) {
+                    $elem.on(matches[1], controllerInstance[attribute.value].bind(controllerInstance));
+                }
+            });
         });
     }
 
