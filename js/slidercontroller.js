@@ -1,15 +1,14 @@
 /* Dependancies */
-var Module = require('./module');
-var ViewController = require('./viewcontroller');
+var Controller = require('./controller');
 
 /* Our Module */
-var SliderController = Module.extend({
+var SliderController = Controller.extend('SliderController', {
 
     ACTIVE: 'is-active',
 
     init: function( options ) {
-        this.$super.init.call( this, options );
-        if ( this.elements.slides.length ) {
+        Controller.init.call( this, options );
+        if ( this.elements.slides ) {
             this.nSlides = this.elements.slides.length;
             this.currentSlide = 0;
             this.setSlide( 0 );
@@ -36,5 +35,4 @@ var SliderController = Module.extend({
 });
 
 /* Exports */
-ViewController.register('SliderController', SliderController);
 module.exports = SliderController;

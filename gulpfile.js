@@ -30,7 +30,7 @@ gulp.task('js', function() {
             insertGlobals: false,
             debug: false
         }))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest('./build'));
 
     gulp.src('./jasmine/spec/spec.js')

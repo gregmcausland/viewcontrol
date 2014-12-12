@@ -10,7 +10,7 @@ var ViewController = Module.extend({
     DEBUG:      false,
 
     init: function( options ) {
-        this.$super.init.call( this, options );
+        Module.init.call( this, options );
         this.controllers = {};
         this.instances = {};
         this.idIterator = 1;
@@ -77,7 +77,6 @@ var ViewController = Module.extend({
         var item;
 
         for ( var controllerInstance in this.instances ) {
-            console.log(item)
             item = this.instances[ controllerInstance ];
             item.instance.init( item.options );
         }
