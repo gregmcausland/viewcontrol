@@ -12,6 +12,15 @@ var Controller = Module.extend({
     },
 
     findController: function( type ) {
+        var results = $(this.elements.root).find('[data-controller=' + type + ']');
+        var list = [];
+
+        results.each(function() {
+            var instanceId = this.dataset.instance;
+            list.push( ViewController.instances[instanceId].instance );
+        });
+
+        return list;
     },
 
     reAssign: function() {
@@ -19,7 +28,7 @@ var Controller = Module.extend({
         this.elements = { root: root };
         ViewController.assignBinds( root, this );
         ViewController.assignCollections( root, this );
-        ViewController.assignClicks( root, this );
+        ViewController.assignEvents( root, this );
     }
 
 });

@@ -19,40 +19,15 @@
 			<div class="slider__slide" data-collection="slides">
 				<img src="http://www.placecage.com/320/210" alt="">
 			</div>
-			<div class="slider__slide" data-collection="slides">
-
-
-				<div data-controller="SliderController">
-					
-					<div class="slider">
-						<div class="slider__slide" data-collection="slides">
-							<img src="http://www.placecage.com/320/200" alt="">
-						</div>
-						<div class="slider__slide" data-collection="slides">
-							<img src="http://www.placecage.com/320/205" alt="">
-						</div>
-						<div class="slider__slide" data-collection="slides">
-							<img src="http://www.placecage.com/320/210" alt="">
-						</div>
-						<div class="slider__slide" data-collection="slides">
-							<img src="http://www.placecage.com/320/215" alt="">
-						</div>
-					</div>
-
-					<div class="controls">
-						<button data-click="nextSlide">Next</button>
-						<button data-click="prevSlide">Previous</button>
-					</div>
-
-				</div>
-
-
-			</div>
 		</div>
 
 		<div class="controls">
-			<button data-click="nextSlide">Next</button>
-			<button data-click="prevSlide">Previous</button>
+			<button data-event-click="nextSlide">Next</button>
+			<button data-event-click="prevSlide">Previous</button>
+		</div>
+
+		<div data-controller="AlertController">
+			<h1 data-bind="alert"></h1>
 		</div>
 
 	</div>

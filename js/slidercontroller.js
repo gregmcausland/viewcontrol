@@ -8,6 +8,10 @@ var SliderController = Controller.extend('SliderController', {
 
     init: function( options ) {
         Controller.init.call( this, options );
+        
+        var alertControllers = this.findController('AlertController');
+        this.alerter = ( alertControllers.length ) ? alertControllers[0] : null;
+
         if ( this.elements.slides ) {
             this.nSlides = this.elements.slides.length;
             this.currentSlide = 0;
@@ -30,6 +34,10 @@ var SliderController = Controller.extend('SliderController', {
         this.elements.slides[ this.currentSlide ].classList.remove( this.ACTIVE );
         this.elements.slides[ targetSlide ].classList.add( this.ACTIVE );
         this.currentSlide = targetSlide;
+
+        if ( this.alerter ) {
+            this.alerter.setText('Slide set: ' + this.currentSlide);
+        }
     }
 
 });

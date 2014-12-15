@@ -1,4 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/* Dependancies */
+var Controller = require('./controller');
+
+/* Our Module */
+var AlertController = Controller.extend('AlertController', {
+
+    setText: function( text ) {
+        this.elements.alert.innerHTML = text;
+    }
+
+});
+
+/* Exports */
+module.exports = AlertController;
+},{"./controller":2}],2:[function(require,module,exports){
 'use strict';
 
 var ViewController = require('./viewcontroller');
@@ -6,19 +21,36 @@ var Module = require('./module');
 
 var Controller = Module.extend({
 
-	extend: function( id, obj ) {
-		var extendedObj = Module.extend.call( this, obj );
-		ViewController.register( id, extendedObj );
-		return extendedObj;
-	},
+    extend: function( id, obj ) {
+        var extendedObj = Module.extend.call( this, obj );
+        ViewController.register( id, extendedObj );
+        return extendedObj;
+    },
 
-	findController: function( type ) {
-	}
+    findController: function( type ) {
+        var results = $(this.elements.root).find('[data-controller=' + type + ']');
+        var list = [];
+
+        results.each(function() {
+            var instanceId = this.dataset.instance;
+            list.push( ViewController.instances[instanceId].instance );
+        });
+
+        return list;
+    },
+
+    reAssign: function() {
+        var root = this.elements.root;
+        this.elements = { root: root };
+        ViewController.assignBinds( root, this );
+        ViewController.assignCollections( root, this );
+        ViewController.assignEvents( root, this );
+    }
 
 });
 
 module.exports = Controller;
-},{"./module":3,"./viewcontroller":6}],2:[function(require,module,exports){
+},{"./module":4,"./viewcontroller":7}],3:[function(require,module,exports){
 'use strict';
 
 /* Polyfills */
@@ -26,35 +58,8 @@ require('./polyfills');
 
 /* Dependencies */
 var SliderController = require('./slidercontroller');
-
-var AnimatedSliderController = SliderController.extend('moo', {
-
-  init: function( options ) {
-    SliderController.init.call(this, options);
-
-    this.options.speed = this.options.speed || 250;
-
-    this.state = {
-      animating:  ['is-animating'],
-      animateIn:  ['animate-in'],
-      active:     ['is-active'],
-      animateout: ['animate-out'],
-    }
-  },
-
-  nextSlide: function() {
-    var leavingSlide = this.currentSlide;
-    var enteringSlide = ( this.currentSlide + 1 ) % this.nSlides;
-
-    console.log( leavingSlide, enteringSlide)
-  },
-
-  prevSlide: function() {
-  }
-
-});
-
-},{"./polyfills":4,"./slidercontroller":5}],3:[function(require,module,exports){
+var AlertController = require('./alertcontroller');
+},{"./alertcontroller":1,"./polyfills":5,"./slidercontroller":6}],4:[function(require,module,exports){
 /* module.js
  *
  * Baseline extensible inheritable module pattern object. 
@@ -126,7 +131,7 @@ var Module = {
 
 module.exports = Module;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /* Object.create() */
 if (typeof Object.create != 'function') {
   Object.create = (function() {
@@ -462,7 +467,7 @@ if (!Array.prototype.indexOf) {
     return -1;
   };
 }
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /* Dependancies */
 var Controller = require('./controller');
 
@@ -473,6 +478,10 @@ var SliderController = Controller.extend('SliderController', {
 
     init: function( options ) {
         Controller.init.call( this, options );
+        
+        var alertControllers = this.findController('AlertController');
+        this.alerter = ( alertControllers.length ) ? alertControllers[0] : null;
+
         if ( this.elements.slides ) {
             this.nSlides = this.elements.slides.length;
             this.currentSlide = 0;
@@ -495,21 +504,26 @@ var SliderController = Controller.extend('SliderController', {
         this.elements.slides[ this.currentSlide ].classList.remove( this.ACTIVE );
         this.elements.slides[ targetSlide ].classList.add( this.ACTIVE );
         this.currentSlide = targetSlide;
+
+        if ( this.alerter ) {
+            this.alerter.setText('Slide set: ' + this.currentSlide);
+        }
     }
 
 });
 
 /* Exports */
 module.exports = SliderController;
-},{"./controller":1}],6:[function(require,module,exports){
+},{"./controller":2}],7:[function(require,module,exports){
 var Module = require('./module');
 
 var ViewController = Module.extend({
 
-    CONTROLLER: 'controller',
-    BINDING:    'bind',
-    COLLECTION: 'collection',
-    CLICK:      'click',
+    CONTROLLER:         'controller',
+    BINDING:            'bind',
+    COLLECTION:         'collection',
+    CLICK:              'click',
+    EVENT_PATTERN:      /data-event-(.+)/i,
 
     DEBUG:      false,
 
@@ -600,7 +614,7 @@ var ViewController = Module.extend({
          * collections and clicks (expandable) */
         this.assignBinds( item, controllerInstance );
         this.assignCollections( item, controllerInstance );
-        this.assignClicks( item, controllerInstance );
+        this.assignEvents( item, controllerInstance );
 
         item.dataset.instance = instanceId;
         return instanceId;
@@ -637,15 +651,39 @@ var ViewController = Module.extend({
         }
     },
 
-    assignClicks: function( item, controllerInstance ) {
+    assignEvents: function ( item, controllerInstance ) {
+        var self = this;
         var $el = $( item );
-        var exclude = $el.find('[data-' + this.CONTROLLER + '] [data-' + this.CLICK +']');
-        $el.find('[data-' + this.CLICK +']').not(exclude).each(function() {
-            $(this).on('click', controllerInstance[this.dataset.click].bind(controllerInstance));
+        var exclude = $el.find('[data-' + this.CONTROLLER + '] *');
+        var scope = $el.find('*').add($el).not(exclude);
+
+        /* Iterate over all children in scope */
+        $(scope).each(function () {
+            var $elem = $(this);
+
+            /* Iterate over the element's attributes */
+            $.each(this.attributes, function(index, attribute) {
+                var matches = attribute.name.match(self.EVENT_PATTERN),
+                    handler;
+
+                /* If the current attribute matches data-event-*, attach the specified handler to the event */
+                if (matches) {
+
+                    handler = controllerInstance[attribute.value];
+
+                    if (typeof handler === 'function') {
+                        $elem.on(matches[1], function (e) {
+                            handler.apply(controllerInstance, [e, $elem]);
+                        });
+                    } else if (self.DEBUG) {
+                        console.log('Failed to bind ' + matches[1] + ' handler "' + attribute.value + '"', $elem[0]);
+                    }
+                }
+            });
         });
     }
 
 });
 
 module.exports = ViewController.getInstance();
-},{"./module":3}]},{},[2])
+},{"./module":4}]},{},[3])

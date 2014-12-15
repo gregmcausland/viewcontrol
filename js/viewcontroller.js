@@ -2,10 +2,11 @@ var Module = require('./module');
 
 var ViewController = Module.extend({
 
-    CONTROLLER: 'controller',
-    BINDING:    'bind',
-    COLLECTION: 'collection',
-    CLICK:      'click',
+    CONTROLLER:         'controller',
+    BINDING:            'bind',
+    COLLECTION:         'collection',
+    CLICK:              'click',
+    EVENT_PATTERN:      /data-event-(.+)/i,
 
     DEBUG:      false,
 
@@ -134,20 +135,32 @@ var ViewController = Module.extend({
     },
 
     assignEvents: function ( item, controllerInstance ) {
+        var self = this;
         var $el = $( item );
         var exclude = $el.find('[data-' + this.CONTROLLER + '] *');
- 
+        var scope = $el.find('*').add($el).not(exclude);
+
         /* Iterate over all children in scope */
-        $el.children().not(exclude).each(function () {
+        $(scope).each(function () {
             var $elem = $(this);
- 
+
             /* Iterate over the element's attributes */
             $.each(this.attributes, function(index, attribute) {
-                var matches = attribute.name.match(/data-event-(.+)/i);
- 
+                var matches = attribute.name.match(self.EVENT_PATTERN),
+                    handler;
+
                 /* If the current attribute matches data-event-*, attach the specified handler to the event */
                 if (matches) {
-                    $elem.on(matches[1], controllerInstance[attribute.value].bind(controllerInstance));
+
+                    handler = controllerInstance[attribute.value];
+
+                    if (typeof handler === 'function') {
+                        $elem.on(matches[1], function (e) {
+                            handler.apply(controllerInstance, [e, $elem]);
+                        });
+                    } else if (self.DEBUG) {
+                        console.log('Failed to bind ' + matches[1] + ' handler "' + attribute.value + '"', $elem[0]);
+                    }
                 }
             });
         });
