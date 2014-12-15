@@ -1,5 +1,5 @@
 /* Dependancies */
-var Controller = require('./controller');
+var Controller = require('../core/controller');
 
 /* Our Module */
 var SliderController = Controller.extend('SliderController', {

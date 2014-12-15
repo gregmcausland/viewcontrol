@@ -1,8 +1,8 @@
 'use strict';
 
 /* Polyfills */
-require('./polyfills');
+require('./core/polyfills');
 
 /* Dependencies */
-var SliderController = require('./slidercontroller');
-var AlertController = require('./alertcontroller');
+var SliderController = require('./controllers/slidercontroller');
+var AlertController = require('./controllers/alertcontroller');

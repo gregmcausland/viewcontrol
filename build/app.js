@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* Dependancies */
-var Controller = require('./controller');
+var Controller = require('../core/controller');
 
 /* Our Module */
 var AlertController = Controller.extend('AlertController', {
@@ -13,17 +13,64 @@ var AlertController = Controller.extend('AlertController', {
 
 /* Exports */
 module.exports = AlertController;
-},{"./controller":2}],2:[function(require,module,exports){
+},{"../core/controller":3}],2:[function(require,module,exports){
+/* Dependancies */
+var Controller = require('../core/controller');
+
+/* Our Module */
+var SliderController = Controller.extend('SliderController', {
+
+    ACTIVE: 'is-active',
+
+    init: function( options ) {
+        Controller.init.call( this, options );
+        
+        var alertControllers = this.findController('AlertController');
+        this.alerter = ( alertControllers.length ) ? alertControllers[0] : null;
+
+        if ( this.elements.slides ) {
+            this.nSlides = this.elements.slides.length;
+            this.currentSlide = 0;
+            this.setSlide( 0 );
+        }
+    },
+
+    nextSlide: function() {
+        this.setSlide( this.currentSlide+1 );
+    },
+
+    prevSlide: function() {
+        this.setSlide( this.currentSlide-1 );
+    },
+
+    setSlide: function( targetSlide ) {
+        if ( targetSlide < 0 ) targetSlide = (this.nSlides-1);
+        if ( targetSlide > (this.nSlides-1) ) targetSlide = 0;
+
+        this.elements.slides[ this.currentSlide ].classList.remove( this.ACTIVE );
+        this.elements.slides[ targetSlide ].classList.add( this.ACTIVE );
+        this.currentSlide = targetSlide;
+
+        if ( this.alerter ) {
+            this.alerter.setText('Slide set: ' + this.currentSlide);
+        }
+    }
+
+});
+
+/* Exports */
+module.exports = SliderController;
+},{"../core/controller":3}],3:[function(require,module,exports){
 'use strict';
 
-var ViewController = require('./viewcontroller');
+var ViewEngine = require('./viewengine');
 var Module = require('./module');
 
 var Controller = Module.extend({
 
     extend: function( id, obj ) {
         var extendedObj = Module.extend.call( this, obj );
-        ViewController.register( id, extendedObj );
+        ViewEngine.register( id, extendedObj );
         return extendedObj;
     },
 
@@ -33,7 +80,7 @@ var Controller = Module.extend({
 
         results.each(function() {
             var instanceId = this.dataset.instance;
-            list.push( ViewController.instances[instanceId].instance );
+            list.push( ViewEngine.instances[instanceId].instance );
         });
 
         return list;
@@ -42,24 +89,15 @@ var Controller = Module.extend({
     reAssign: function() {
         var root = this.elements.root;
         this.elements = { root: root };
-        ViewController.assignBinds( root, this );
-        ViewController.assignCollections( root, this );
-        ViewController.assignEvents( root, this );
+        ViewEngine.assignBinds( root, this );
+        ViewEngine.assignCollections( root, this );
+        ViewEngine.assignEvents( root, this );
     }
 
 });
 
 module.exports = Controller;
-},{"./module":4,"./viewcontroller":7}],3:[function(require,module,exports){
-'use strict';
-
-/* Polyfills */
-require('./polyfills');
-
-/* Dependencies */
-var SliderController = require('./slidercontroller');
-var AlertController = require('./alertcontroller');
-},{"./alertcontroller":1,"./polyfills":5,"./slidercontroller":6}],4:[function(require,module,exports){
+},{"./module":4,"./viewengine":6}],4:[function(require,module,exports){
 /* module.js
  *
  * Baseline extensible inheritable module pattern object. 
@@ -468,56 +506,9 @@ if (!Array.prototype.indexOf) {
   };
 }
 },{}],6:[function(require,module,exports){
-/* Dependancies */
-var Controller = require('./controller');
-
-/* Our Module */
-var SliderController = Controller.extend('SliderController', {
-
-    ACTIVE: 'is-active',
-
-    init: function( options ) {
-        Controller.init.call( this, options );
-        
-        var alertControllers = this.findController('AlertController');
-        this.alerter = ( alertControllers.length ) ? alertControllers[0] : null;
-
-        if ( this.elements.slides ) {
-            this.nSlides = this.elements.slides.length;
-            this.currentSlide = 0;
-            this.setSlide( 0 );
-        }
-    },
-
-    nextSlide: function() {
-        this.setSlide( this.currentSlide+1 );
-    },
-
-    prevSlide: function() {
-        this.setSlide( this.currentSlide-1 );
-    },
-
-    setSlide: function( targetSlide ) {
-        if ( targetSlide < 0 ) targetSlide = (this.nSlides-1);
-        if ( targetSlide > (this.nSlides-1) ) targetSlide = 0;
-
-        this.elements.slides[ this.currentSlide ].classList.remove( this.ACTIVE );
-        this.elements.slides[ targetSlide ].classList.add( this.ACTIVE );
-        this.currentSlide = targetSlide;
-
-        if ( this.alerter ) {
-            this.alerter.setText('Slide set: ' + this.currentSlide);
-        }
-    }
-
-});
-
-/* Exports */
-module.exports = SliderController;
-},{"./controller":2}],7:[function(require,module,exports){
 var Module = require('./module');
 
-var ViewController = Module.extend({
+var ViewEngine = Module.extend({
 
     CONTROLLER:         'controller',
     BINDING:            'bind',
@@ -685,5 +676,14 @@ var ViewController = Module.extend({
 
 });
 
-module.exports = ViewController.getInstance();
-},{"./module":4}]},{},[3])
+module.exports = ViewEngine.getInstance();
+},{"./module":4}],7:[function(require,module,exports){
+'use strict';
+
+/* Polyfills */
+require('./core/polyfills');
+
+/* Dependencies */
+var SliderController = require('./controllers/slidercontroller');
+var AlertController = require('./controllers/alertcontroller');
+},{"./controllers/alertcontroller":1,"./controllers/slidercontroller":2,"./core/polyfills":5}]},{},[7])

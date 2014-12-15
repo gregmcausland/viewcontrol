@@ -1,6 +1,6 @@
 var Module = require('./module');
 
-var ViewController = Module.extend({
+var ViewEngine = Module.extend({
 
     CONTROLLER:         'controller',
     BINDING:            'bind',
@@ -168,4 +168,4 @@ var ViewController = Module.extend({
 
 });
 
-module.exports = ViewController.getInstance();
+module.exports = ViewEngine.getInstance();
