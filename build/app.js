@@ -18,6 +18,12 @@ var todoController = Controller.extend('todoController', {
 		try {
 			this.items = JSON.parse(localStorage['todo']).items || [];
 			this.renderList();
+
+			var top = 0;
+			for ( var i=0, len=this.items.length; i<len; i++ ) {
+				top = ( this.items[i].index > top ) ? this.items[i].index : top;
+			}
+			this.index = top + 1;
 		} catch( e ) {};
 	},
 
