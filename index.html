@@ -13,25 +13,6 @@
 		  <h1>Example App</h1>
 		</div>
 
-		<div data-controller="ChatAppController" class="row">
-
-			<div class="col-lg-6">
-				<div data-controller="ChatWindowController">
-					<div data-bind="dropZone"></div>
-				</div>
-
-				<div data-controller="ChatInputController">
-					<form data-event-submit="submit" class="input-group">
-						<input type="text" data-bind="chatInput" class="form-control">
-						<div class="input-group-btn">
-							<button type="submit" class="btn btn-default">Send</button>
-						</div>
-					</form>
-				</div>
-			</div>
-
-		</div>
-
 		<script src="js/mustache.js"></script>
 		<script src="js/jquery.js"></script>
 		<script src="build/app.js"></script>
