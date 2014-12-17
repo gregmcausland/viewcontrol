@@ -42,7 +42,7 @@ var todoController = Controller.extend('todoController', {
 
 	renderList: function() {
 		this.elements.list.innerHTML = Mustache.render(this.itemTemplate, { items: this.items });
-		window.localStorage.setItem('todo', JSON.stringify({ items: this.items }));
+		localStorage.setItem('todo', JSON.stringify({ items: this.items }));
 	},
 
 	removeItem: function( e ) {
