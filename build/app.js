@@ -12,8 +12,9 @@ var todoController = Controller.extend('todoController', {
 		this.index = 0;
 		this.elements.newItem.focus();
 
-		$(this.elements.list).on('click', '[data-remove]', this.removeItem.bind(this) );
-		$(this.elements.list).on('click', '[data-toggle]', this.toggleItem.bind(this) );
+		$(this.elements.list)
+			.on('click', '[data-remove]', this.removeItem.bind(this) )
+			.on('click', '[data-toggle]', this.toggleItem.bind(this) );
 
 		try {
 			this.items = JSON.parse(localStorage['todo']).items || [];
