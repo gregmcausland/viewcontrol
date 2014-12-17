@@ -4,3 +4,4 @@
 require('./core/polyfills');
 
 /* Controllers */
+require('./controllers/todocontroller');
